@@ -39,21 +39,23 @@
             <h2 class="heading-secondary ma-bt-lg">Quick facts</h2>
             <div class="overview-box__detail">
               <svg class="overview-box__icon">
-                <use xlink:href="img/icons.svg#icon-calendar"></use>
+                <use xlink:href="~@/assets/img/icons.svg#icon-calendar"></use>
               </svg>
               <span class="overview-box__label">Next date</span>
               <span class="overview-box__text">{{ nextDate }}</span>
             </div>
             <div class="overview-box__detail">
               <svg class="overview-box__icon">
-                <use xlink:href="img/icons.svg#icon-trending-up"></use>
+                <use
+                  xlink:href="~@/assets/img/icons.svg#icon-trending-up"
+                ></use>
               </svg>
               <span class="overview-box__label">Difficulty</span>
               <span class="overview-box__text">{{ tour.difficulty }}</span>
             </div>
             <div class="overview-box__detail">
               <svg class="overview-box__icon">
-                <use xlink:href="img/icons.svg#icon-user"></use>
+                <use xlink:href="~@/assets/img/icons.svg#icon-user"></use>
               </svg>
               <span class="overview-box__label">Participants</span>
               <span class="overview-box__text"
@@ -62,7 +64,7 @@
             </div>
             <div class="overview-box__detail">
               <svg class="overview-box__icon">
-                <use xlink:href="img/icons.svg#icon-star"></use>
+                <use xlink:href="~@/assets/img/icons.svg#icon-star"></use>
               </svg>
               <span class="overview-box__label">Rating</span>
               <span class="overview-box__text"
@@ -178,26 +180,18 @@
             yours today!
           </p>
 
-          <flutterwave-pay-button
-            v-if="isLoggedIn"
+          <paystack
             class="btn btn--green span-all-rows"
-            :tx_ref="generateRef(16)"
-            :amount="tour.price"
-            currency="NGN"
-            payment_options="card,ussd"
-            redirect_url=""
-            :meta="{ consumer_id: `${user._id}`, consumer_mac: `${user.name}` }"
-            :customer="{ email: `${user.email}`, phonenumber: '09030380719' }"
-            :customizations="{
-              title: `Bookings for ${tour.name}`,
-              description: `${tour.summary}`,
-              logo: `https://tourist-ms.herokuapp.com/img/logo-white.png`,
-            }"
+            v-if="isLoggedIn"
+            :amount="tour.price * 100"
+            :email="user.email"
+            :reference="generateRef(16)"
+            :paystackkey="paymentKey"
             :callback="verifyBooking"
-            :onclose="close"
+            :close="close"
           >
             Book tour now!
-          </flutterwave-pay-button>
+          </paystack>
 
           <button
             v-else
@@ -215,17 +209,17 @@
 <script>
 import axios from 'axios';
 import MapBox from '../components/mapBox';
+import paystack from 'vue-paystack';
 
 export default {
   name: 'Tour',
   // props: ['tour'],
-  components: { MapBox },
+  components: { MapBox, paystack },
   data() {
     return {
       tour: null,
       paymentEndpoint: 'https://api.flutterwave.com/v3/payments',
-      paymentKey: 'FLWPUBK_TEST-e85370dafc8f0f9792f40fda2aa847a0-X',
-      redirectUrl: 'http://localhost:8000/account/bookings/verify',
+      paymentKey: 'pk_test_db735c647e170aa352d94296722f0cb4503ea0eb',
     };
   },
 
@@ -239,20 +233,6 @@ export default {
     tourImageCover: function () {
       return this.tour.imageCover;
     },
-    // generateRef: function () {
-    //   let ref = '';
-    //   const characters =
-    //     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    //   const charactersLength = characters.length;
-    //   for (let i = 0; i < length; i++) {
-    //     ref += characters.charAt(Math.floor(Math.random() * charactersLength));
-    //   }
-    //   return ref;
-    // },
-
-    // tour.images: function () {
-    //   return this.tour.images;
-    // },
   },
   methods: {
     generateRef: function (length) {
@@ -279,14 +259,24 @@ export default {
       }
     },
 
-    verifyBooking: function (data) {
-      if (data.status === 'successful') {
-        console.log(data.tx_ref);
-        this.$router.push('/home');
-        this.showAlert('success', 'Transaction completed');
+    verifyBooking: function (response) {
+      if (response.status === 'success' && response.message === 'Approved') {
+        console.log(response.reference);
+        // Make verification request with the reference returned from the API call
+        this.showAlert(
+          'success',
+          'Transaction completed. Please wait for verification'
+        );
+        this.$router.push({
+          name: 'verify-booking',
+          params: { ref: response.reference, tourId: this.tour._id },
+        });
+      } else {
+        this.showAlert(
+          'error',
+          'Payment could not be completed. Please try again soon'
+        );
       }
-
-      this.showAlert('error', 'Transaction could not be completed');
     },
 
     close: function () {

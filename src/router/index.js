@@ -50,8 +50,13 @@ const routes = [
             component: () => import('../views/pages/account/Settings'),
           },
           {
-            path: 'bookings/verify/:ref',
-            name: 'verify-bookings',
+            path: 'bookings',
+            name: 'bookings',
+            component: () => import('../views/pages/account/Bookings'),
+          },
+          {
+            path: 'bookings/verify/:ref/:tourId',
+            name: 'verify-booking',
             component: () => import('../views/pages/account/VerifyBookings'),
           },
         ],
