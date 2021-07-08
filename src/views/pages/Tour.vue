@@ -181,7 +181,7 @@
           <flutterwave-pay-button
             v-if="isLoggedIn"
             class="btn btn--green span-all-rows"
-            :tx_ref="generateRef"
+            :tx_ref="'Sosdasdfdddkjdke'"
             :amount="tour.price"
             currency="NGN"
             payment_options="card,ussd"
@@ -196,6 +196,7 @@
             :callback="bookTour"
             :onclose="close"
           >
+            Book tour now!
           </flutterwave-pay-button>
 
           <button
@@ -238,13 +239,7 @@ export default {
     tourImageCover: function () {
       return this.tour.imageCover;
     },
-
-    // tour.images: function () {
-    //   return this.tour.images;
-    // },
-  },
-  methods: {
-    generateRef: function (length) {
+    generateRef: function () {
       let ref = '';
       const characters =
         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -254,6 +249,22 @@ export default {
       }
       return ref;
     },
+
+    // tour.images: function () {
+    //   return this.tour.images;
+    // },
+  },
+  methods: {
+    // generateRef: function (length) {
+    //   let ref = '';
+    //   const characters =
+    //     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    //   const charactersLength = characters.length;
+    //   for (let i = 0; i < length; i++) {
+    //     ref += characters.charAt(Math.floor(Math.random() * charactersLength));
+    //   }
+    //   return ref;
+    // },
     setData: function (tour) {
       if (tour) {
         this.tour = tour;
