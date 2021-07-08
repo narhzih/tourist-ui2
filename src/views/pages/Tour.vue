@@ -193,7 +193,7 @@
               description: `${tour.summary}`,
               logo: `https://tourist-ms.herokuapp.com/img/logo-white.png`,
             }"
-            :callback="bookTour"
+            :callback="verifyBooking"
             :onclose="close"
           >
             Book tour now!
@@ -277,8 +277,16 @@ export default {
         this.$router.push('/auth/login');
         return false;
       }
+    },
 
-      // Logic to book tour
+    verifyBooking: function (data) {
+      if (data.status === 'successful') {
+        console.log(data.tx_ref);
+        this.$router.push('/home');
+        this.showAlert('success', 'Transaction completed');
+      }
+
+      this.showAlert('error', 'Transaction could not be completed');
     },
 
     close: function () {

@@ -1,14 +1,14 @@
 const myMixin = {
   data() {
     return {
-      base: 'https://tourist-ms.herokuapp.com',
-      imageBaseUrl: `https://tourist-ms.herokuapp.com/img`,
-      tourImageBaseUrl: `https://tourist-ms.herokuapp.com/img/tours`,
-      userImageBaseUrl: `https://tourist-ms.herokuapp.com/img/users`,
-      // base: `http://localhost:3000`,
-      // imageBaseUrl: `http://localhost:3000/img`,
-      // tourImageBaseUrl: `http://localhost:3000/img/tours`,
-      // userImageBaseUrl: `http://localhost:3000/img/users`,
+      // base: 'https://tourist-ms.herokuapp.com',
+      // imageBaseUrl: `https://tourist-ms.herokuapp.com/img`,
+      // tourImageBaseUrl: `https://tourist-ms.herokuapp.com/img/tours`,
+      // userImageBaseUrl: `https://tourist-ms.herokuapp.com/img/users`,
+      base: `http://localhost:3000`,
+      imageBaseUrl: `http://localhost:3000/img`,
+      tourImageBaseUrl: `http://localhost:3000/img/tours`,
+      userImageBaseUrl: `http://localhost:3000/img/users`,
     };
   },
   computed: {
