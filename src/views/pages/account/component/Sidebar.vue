@@ -15,12 +15,12 @@
       </li>
 
       <li class="">
-        <a href="#">
+        <router-link :to="{ name: 'bookings' }">
           <svg>
             <use xlink:href="@/assets/img/icons.svg#icon-briefcase"></use>
           </svg>
           My Bookings
-        </a>
+        </router-link>
       </li>
 
       <li class="">

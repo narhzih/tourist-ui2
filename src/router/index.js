@@ -18,6 +18,14 @@ const routes = [
         component: () => import('../views/pages/Overview'),
       },
       {
+        path: 'bookings',
+        name: 'bookings',
+        component: () => import('../views/pages/account/Bookings'),
+        meta: {
+          auth: true,
+        },
+      },
+      {
         path: 'tour/:id',
         name: 'tour',
         component: () => import('../views/pages/Tour'),
@@ -50,11 +58,6 @@ const routes = [
             component: () => import('../views/pages/account/Settings'),
           },
           {
-            path: 'bookings',
-            name: 'bookings',
-            component: () => import('../views/pages/account/Bookings'),
-          },
-          {
             path: 'bookings/verify/:ref/:tourId',
             name: 'verify-booking',
             component: () => import('../views/pages/account/VerifyBookings'),
@@ -66,15 +69,15 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  // scrollBehavior(to) {
-  //   if (to.hash) {
-  //     return {
-  //       el: to.hash,
-  //       behavior: 'smooth',
-  //     };
-  //   }
-  //   // always scroll to top
-  // },
+  scrollBehavior(to) {
+    if (to.hash) {
+      return {
+        el: to.hash,
+        behavior: 'smooth',
+      };
+    }
+    // always scroll to top
+  },
   mode: 'history',
   routes,
 });
