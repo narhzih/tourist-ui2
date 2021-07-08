@@ -4,6 +4,7 @@ import router from './router/index';
 import store from './store/index';
 import mixin from './mixin';
 import Flutterwave from 'flutterwave-vue-v3';
+export const eventBus = new Vue();
 
 Vue.config.productionTip = false;
 Vue.mixin(mixin);

@@ -13,13 +13,14 @@
 
 <script>
 import Sidebar from './component/Sidebar';
+import { eventBus } from '../../../main';
 export default {
   name: 'AccountBase',
   components: { Sidebar },
   methods: {
     toggleSidebar: function () {
       // alert('clicked');
-      this.eventBus.emit('toggleSidebar');
+      eventBus.$emit('toggleSidebar');
     },
   },
 };

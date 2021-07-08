@@ -86,6 +86,7 @@
 </template>
 
 <script>
+import { eventBus } from '../../../../main';
 export default {
   name: 'Sidebar',
   data() {
@@ -101,7 +102,7 @@ export default {
   },
 
   created() {
-    this.eventBus.on('toggleSidebar', () => {
+    eventBus.$on('toggleSidebar', () => {
       this.toggle();
     });
   },
