@@ -181,7 +181,7 @@
           <flutterwave-pay-button
             v-if="isLoggedIn"
             class="btn btn--green span-all-rows"
-            :tx_ref="'Sosdasdfdddkjdke'"
+            :tx_ref="generateRef(16)"
             :amount="tour.price"
             currency="NGN"
             payment_options="card,ussd"
@@ -191,7 +191,7 @@
             :customizations="{
               title: `Bookings for ${tour.name}`,
               description: `${tour.summary}`,
-              logo: `${imageBaseUrl}/logo-white.png`,
+              logo: `https://tourist-ms.herokuapp.com/img/logo-white.png`,
             }"
             :callback="bookTour"
             :onclose="close"
@@ -239,23 +239,7 @@ export default {
     tourImageCover: function () {
       return this.tour.imageCover;
     },
-    generateRef: function () {
-      let ref = '';
-      const characters =
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      const charactersLength = characters.length;
-      for (let i = 0; i < length; i++) {
-        ref += characters.charAt(Math.floor(Math.random() * charactersLength));
-      }
-      return ref;
-    },
-
-    // tour.images: function () {
-    //   return this.tour.images;
-    // },
-  },
-  methods: {
-    // generateRef: function (length) {
+    // generateRef: function () {
     //   let ref = '';
     //   const characters =
     //     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -265,6 +249,22 @@ export default {
     //   }
     //   return ref;
     // },
+
+    // tour.images: function () {
+    //   return this.tour.images;
+    // },
+  },
+  methods: {
+    generateRef: function (length) {
+      let ref = '';
+      const characters =
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      const charactersLength = characters.length;
+      for (let i = 0; i < length; i++) {
+        ref += characters.charAt(Math.floor(Math.random() * charactersLength));
+      }
+      return ref;
+    },
     setData: function (tour) {
       if (tour) {
         this.tour = tour;
