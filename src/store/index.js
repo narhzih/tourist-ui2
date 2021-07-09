@@ -5,8 +5,8 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     server: {
-      requestUri: 'http://127.0.0.1:3000/api/v1',
-      // requestUri: 'https://tourist-ms.herokuapp.com/api/v1',
+      // requestUri: 'http://127.0.0.1:3000/api/v1',
+      requestUri: 'https://tourist-ms.herokuapp.com/api/v1',
     },
     accessToken: localStorage.getItem('access_token') || null,
     user: JSON.parse(localStorage.getItem('user')) || null,
